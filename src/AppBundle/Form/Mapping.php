@@ -41,10 +41,8 @@ class Mapping extends AbstractType
     {
         $columns = $this->connection->fetchAll('SHOW COLUMNS FROM ' . $options['userTable']);
         $csvManager = new CsvManager($this->logger);
-        $i = 0;
         foreach ($columns as $column) {
             $builder->add($column['Field'], ChoiceType::class, ['data' => null, 'label' => $this->dashesToCamelCase($column['Field']), 'choices' => $csvManager->getHeaderToChoice(), 'placeholder' => 'Choose CSV column', 'required' => $this->checkRequired($column)]);
-            $i++;
         }
         $builder->add('Import', SubmitType::class, ['label' => 'Import']);
     }
